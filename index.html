@@ -8,185 +8,168 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: white; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.5s, color 0.5s; overflow-x: hidden; }
         
-        #bg-slider {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            transition: background-image 1.5s ease-in-out;
-            background-size: cover; background-position: center;
+        #bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: #000; }
+        .bg-slide {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1.5s ease-in-out;
+            transform: scale(1.1);
         }
-        #bg-slider::after {
+        .bg-slide.active { opacity: 1; animation: zoomIn 8s forwards; }
+        @keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+        #bg-container::after {
             content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%),
-                        linear-gradient(to bottom, rgba(0,0,0,0.3), #000);
+            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 7rem);
-            line-height: 0.9;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-        }
-
+        .glass { backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 7rem); line-height: 0.9; font-weight: 800; letter-spacing: -0.04em; }
         .text-glow { text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
-        .logo-space { letter-spacing: 0.4em; }
+        .logo-header { letter-spacing: 0.4em; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .float { animation: float 5s ease-in-out infinite; }
+        body.dark { background: #000; color: white; }
+        body.light { background: #f4f4f4; color: #1a1a1a; }
+        body.light #bg-container { display: none; }
+        body.light .glass { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.1); color: #1a1a1a; }
+        body.light .text-gray-200, body.light .text-gray-400 { color: #4a4a4a; }
 
-        #drawer {
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-        }
+        #drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); z-index: 100; }
         #drawer.open { transform: translateX(0); }
-        
         #success-message { display: none; }
         #success-message.active { display: flex; }
     </style>
 </head>
-<body>
+<body class="dark">
 
-    <div id="bg-slider"></div>
+    <div id="bg-container">
+        <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000')"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000')"></div>
+        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000')"></div>
+    </div>
 
     <nav class="fixed w-full z-[60] p-6 md:p-10 flex justify-between items-center">
-        <div class="text-2xl font-black logo-space uppercase">F R <span class="text-blue-500 font-extrabold">i</span> O</div>
-        <div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/70 items-center">
-            <a href="#details" class="hover:text-white transition">Learn More</a>
-            <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-6 py-2 rounded-full transition hover:bg-blue-500">Contact Us</button>
+        <div class="text-2xl font-black logo-header uppercase">F R <span class="text-blue-500">i</span> O</div>
+        <div class="flex gap-6 items-center">
+            <button onclick="toggleTheme()" class="p-2 glass rounded-full w-12 h-6 flex items-center px-1">
+                <div id="theme-dot" class="bg-blue-500 w-4 h-4 rounded-full transition-transform"></div>
+            </button>
+            <a href="#details" class="hidden md:block text-xs font-bold uppercase tracking-widest opacity-70 hover:opacity-100">Learn More</a>
+            <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Contact Us</button>
         </div>
     </nav>
 
     <main class="relative pt-20 md:pt-48 px-6 lg:px-24">
         <section class="min-h-screen flex flex-col justify-center">
             <div class="max-w-6xl">
-                <h1 class="hero-title mb-8">
-                    WE BUILD <br>
-                    <span class="text-glow uppercase">THE FUTURE.</span>
-                </h1>
-                <p class="text-lg md:text-3xl text-gray-200 max-w-2xl mb-12 leading-tight font-light">
-                    "The only way to predict the future is to create it."
-                </p>
+                <h1 class="hero-title mb-8">WE BUILD <br><span class="text-glow uppercase">THE FUTURE.</span></h1>
+                <p class="text-lg md:text-3xl max-w-2xl mb-12 leading-tight font-light italic">"The only way to predict the future is to create it."</p>
                 <div class="flex flex-col md:flex-row gap-4">
-                    <button onclick="toggleDrawer()" class="bg-white text-black px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-blue-500 hover:text-white transition">Join the Team</button>
-                    <a href="#details" class="border border-white/20 backdrop-blur-md text-center px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition">Explore Specs</a>
+                    <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition">Join the Team</button>
+                    <a href="#details" class="glass text-center px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition">Explore Specs</a>
                 </div>
             </div>
 
             <div id="details" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-32 pb-24">
-                <div class="glass p-8 rounded-3xl float">
-                    <h3 class="text-blue-400 font-bold mb-2 uppercase text-xs tracking-widest">Linux Systems</h3>
-                    <p class="text-lg font-medium text-gray-200">Seeking Kernel-level Wizards for OS architecture.</p>
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-blue-500 font-bold mb-2 uppercase text-xs tracking-widest">Linux Systems</h3>
+                    <p class="text-lg font-medium">OS Architecture & Kernel Optimization.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl float" style="animation-delay: 1s;">
-                    <h3 class="text-blue-400 font-bold mb-2 uppercase text-xs tracking-widest">Hardware</h3>
-                    <p class="text-lg font-medium text-gray-200">Precision Robotics & Microcontroller Programming.</p>
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-blue-500 font-bold mb-2 uppercase text-xs tracking-widest">Hardware</h3>
+                    <p class="text-lg font-medium">Robotics & Microcontroller Precision.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl float" style="animation-delay: 2s;">
-                    <h3 class="text-blue-400 font-bold mb-2 uppercase text-xs tracking-widest">The Mission</h3>
-                    <p class="text-lg font-medium text-gray-200">Engineering excellence across the physical frontier.</p>
+                <div class="glass p-8 rounded-3xl">
+                    <h3 class="text-blue-500 font-bold mb-2 uppercase text-xs tracking-widest">The Mission</h3>
+                    <p class="text-lg font-medium">Creating the physical tools for 2026.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-[450px] glass z-[100] p-10 flex flex-col shadow-2xl">
-        <button onclick="toggleDrawer()" class="self-end text-2xl mb-8">✕</button>
+    <div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-[500px] glass bg-black/90 p-8 md:p-12 flex flex-col overflow-y-auto">
+        <button onclick="toggleDrawer()" class="self-end text-2xl mb-4">✕</button>
         
-        <div id="contact-form-container">
-            <h2 class="text-4xl font-extrabold mb-2 uppercase tracking-tighter">Contact F R <span class="text-blue-500">i</span> O</h2>
-            <p class="text-gray-400 mb-8 font-medium italic">Initiate transmission for recruitment or collaboration.</p>
+        <div id="form-content">
+            <h2 class="text-3xl font-black mb-1 uppercase tracking-tighter">Contact FR<span class="text-blue-500">i</span>O</h2>
+            <p class="text-xs text-blue-500 uppercase tracking-widest mb-8 font-bold">Skill-Based Intake v1.0</p>
             
-            <form id="frio-form" action="https://formspree.io/f/mkooopwj" method="POST" class="flex flex-col gap-6">
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] uppercase tracking-widest font-bold text-blue-400">Handle</label>
-                    <input type="text" name="name" required placeholder="Full Name" class="bg-white/5 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none transition text-white">
+            <form id="frio-form" action="https://formspree.io/f/mkooopwj" method="POST" class="flex flex-col gap-5">
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">Full Name</label>
+                    <input type="text" name="name" required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] uppercase tracking-widest font-bold text-blue-400">Communication Channel</label>
-                    <input type="email" name="email" required placeholder="Email Address" class="bg-white/5 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none transition text-white">
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">Current Role / Expertise</label>
+                    <input type="text" name="role" placeholder="e.g. Embedded Systems Engineer" required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
                 </div>
-                <div class="flex flex-col gap-1">
-                    <label class="text-[10px] uppercase tracking-widest font-bold text-blue-400">Message</label>
-                    <textarea name="message" required rows="4" placeholder="How will you create the future?" class="bg-white/5 border border-white/10 p-4 rounded-xl focus:border-blue-500 outline-none transition text-white resize-none"></textarea>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">Biggest Project Worked On</label>
+                    <input type="text" name="project_name" required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
                 </div>
-                <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold uppercase tracking-widest transition shadow-lg shadow-blue-900/40">Transmit</button>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">Project Link / Portfolio</label>
+                    <input type="url" name="link" placeholder="https://github.com/..." required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">Active Email</label>
+                    <input type="email" name="email" required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-blue-500">How will you create the future?</label>
+                    <textarea name="vision" rows="3" required class="w-full bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition resize-none"></textarea>
+                </div>
+                <button type="submit" class="mt-4 bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-blue-500 transition">Transmit Data</button>
             </form>
         </div>
 
-        <div id="success-message" class="flex-col items-center justify-center text-center h-full pb-20">
-            <div class="w-20 h-20 bg-blue-600/20 border border-blue-500 rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            <h2 class="text-3xl font-black uppercase mb-4 tracking-tighter">Transmission Received</h2>
-            <p class="text-gray-400 leading-relaxed">Thank you for reaching out to F R i O. Your data has been logged into our systems. You will be notified via your communication channel within 6-7 business days.</p>
-            <button onclick="toggleDrawer()" class="mt-10 text-xs font-bold uppercase tracking-widest text-blue-400 border-b border-blue-400 pb-1 hover:text-white hover:border-white transition">Close Terminal</button>
+        <div id="success-message" class="flex-col items-center justify-center text-center h-full">
+            <h2 class="text-3xl font-black mb-4 uppercase">TRANSMISSION SENT</h2>
+            <p class="text-gray-400">Thank you for reaching out to FRiO. You'll be notified within 6-7 business days.</p>
+            <button onclick="toggleDrawer()" class="mt-8 text-blue-500 font-bold uppercase text-xs">Close</button>
         </div>
     </div>
 
     <script>
-        const images = [
-            'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=2000',
-            'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2000',
-            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2000',
-            'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=2000'
-        ];
-
-        let index = 0;
-        const slider = document.getElementById('bg-slider');
-
-        function changeBg() {
-            slider.style.backgroundImage = `url('${images[index]}')`;
-            index = (index + 1) % images.length;
+        let current = 0;
+        const slides = document.querySelectorAll('.bg-slide');
+        function nextSlide() {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
         }
+        setInterval(nextSlide, 7000);
 
-        function toggleDrawer() {
-            const drawer = document.getElementById('drawer');
-            drawer.classList.toggle('open');
-            if (!drawer.classList.contains('open')) {
-                setTimeout(() => {
-                    document.getElementById('contact-form-container').style.display = 'block';
-                    document.getElementById('success-message').classList.remove('active');
-                }, 500);
+        function toggleTheme() {
+            const body = document.body;
+            const dot = document.getElementById('theme-dot');
+            if(body.classList.contains('dark')) {
+                body.classList.replace('dark', 'light');
+                dot.style.transform = 'translateX(24px)';
+            } else {
+                body.classList.replace('light', 'dark');
+                dot.style.transform = 'translateX(0)';
             }
         }
+
+        function toggleDrawer() { document.getElementById('drawer').classList.toggle('open'); }
 
         const form = document.getElementById('frio-form');
         form.onsubmit = async (e) => {
             e.preventDefault();
-            const formData = new FormData(form);
-            
             const response = await fetch(form.action, {
                 method: 'POST',
-                body: formData,
+                body: new FormData(form),
                 headers: { 'Accept': 'application/json' }
             });
-
             if (response.ok) {
-                document.getElementById('contact-form-container').style.display = 'none';
+                document.getElementById('form-content').style.display = 'none';
                 document.getElementById('success-message').classList.add('active');
-                form.reset();
-            } else {
-                alert("Transmission failed. Please check your network connection.");
             }
         };
 
-        changeBg();
-        setInterval(changeBg, 5000);
-
         console.log("%c[FRiO SYSTEM INITIALIZED]", "color: #3b82f6; font-size: 20px; font-weight: bold;");
-        console.log("%cTargeting high-skill operatives in Linux, RTOS, and Robotics.", "color: #888; font-size: 12px;");
-        console.log("%cIf you're reading this, you have the curiosity we need. Transmit your portfolio via the UI.", "color: #888; font-size: 12px;");
     </script>
 </body>
-</html>
+    </html>
