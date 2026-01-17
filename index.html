@@ -11,17 +11,25 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.5s, color 0.5s; overflow-x: hidden; }
         
         #bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: #000; }
+        
         .bg-slide {
             position: absolute; inset: 0; background-size: cover; background-position: center;
-            opacity: 0; transition: opacity 1.5s ease-in-out;
-            transform: scale(1.1);
+            opacity: 0; transition: opacity 2s ease-in-out;
         }
-        .bg-slide.active { opacity: 1; animation: zoomIn 8s forwards; }
-        @keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-        #bg-container::after {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+        .bg-slide.active { opacity: 1; animation: fadeZoomOut 8s ease-in-out forwards; }
+
+        @keyframes fadeZoomOut {
+            0% { transform: scale(1); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: scale(1.15); opacity: 0; }
+        }
+
+        #bg-overlay {
+            position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.67);
+            z-index: 1;
         }
 
         .glass { backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -31,9 +39,8 @@
 
         body.dark { background: #000; color: white; }
         body.light { background: #f4f4f4; color: #1a1a1a; }
-        body.light #bg-container { display: none; }
+        body.light #bg-overlay { background: rgba(255, 255, 255, 0.75); }
         body.light .glass { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0,0,0,0.1); color: #1a1a1a; }
-        body.light .text-gray-200, body.light .text-gray-400 { color: #4a4a4a; }
 
         #drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); transform: translateX(100%); z-index: 100; }
         #drawer.open { transform: translateX(0); }
@@ -44,9 +51,8 @@
 <body class="dark">
 
     <div id="bg-container">
-        <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000')"></div>
-        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000')"></div>
-        <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000')"></div>
+        <div id="bg-overlay"></div>
+        <div id="slides-wrapper"></div>
     </div>
 
     <nav class="fixed w-full z-[60] p-6 md:p-10 flex justify-between items-center">
@@ -88,12 +94,11 @@
         </section>
     </main>
 
-    <div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-[500px] glass bg-black/90 p-8 md:p-12 flex flex-col overflow-y-auto">
+    <div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-[500px] glass bg-black/95 p-8 md:p-12 flex flex-col overflow-y-auto">
         <button onclick="toggleDrawer()" class="self-end text-2xl mb-4">✕</button>
         
         <div id="form-content">
-            <h2 class="text-3xl font-black mb-1 uppercase tracking-tighter">Contact FR<span class="text-blue-500">i</span>O</h2>
-            <p class="text-xs text-blue-500 uppercase tracking-widest mb-8 font-bold">Skill-Based Intake v1.0</p>
+            <h2 class="text-3xl font-black mb-8 uppercase tracking-tighter">Contact FR<span class="text-blue-500">i</span>O</h2>
             
             <form id="frio-form" action="https://formspree.io/f/mkooopwj" method="POST" class="flex flex-col gap-5">
                 <div>
@@ -132,14 +137,44 @@
     </div>
 
     <script>
-        let current = 0;
-        const slides = document.querySelectorAll('.bg-slide');
-        function nextSlide() {
-            slides[current].classList.remove('active');
-            current = (current + 1) % slides.length;
-            slides[current].classList.add('active');
+        const darkImages = [
+            'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000',
+            'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000',
+            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000'
+        ];
+
+        const lightImages = [
+            'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000',
+            'https://images.unsplash.com/photo-1517055727180-d1a6731f566d?q=80&w=2000',
+            'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000'
+        ];
+
+        let currentIdx = 0;
+        const wrapper = document.getElementById('slides-wrapper');
+        
+        function updateSlides() {
+            const isDark = document.body.classList.contains('dark');
+            const set = isDark ? darkImages : lightImages;
+            wrapper.innerHTML = '';
+            set.forEach((src, i) => {
+                const div = document.createElement('div');
+                div.className = `bg-slide ${i === 0 ? 'active' : ''}`;
+                div.style.backgroundImage = `url('${src}')`;
+                wrapper.appendChild(div);
+            });
+            currentIdx = 0;
         }
-        setInterval(nextSlide, 7000);
+
+        function cycle() {
+            const slides = document.querySelectorAll('.bg-slide');
+            if (slides.length === 0) return;
+            slides[currentIdx].classList.remove('active');
+            currentIdx = (currentIdx + 1) % slides.length;
+            slides[currentIdx].classList.add('active');
+        }
+
+        setInterval(cycle, 8000);
+        updateSlides();
 
         function toggleTheme() {
             const body = document.body;
@@ -151,6 +186,7 @@
                 body.classList.replace('light', 'dark');
                 dot.style.transform = 'translateX(0)';
             }
+            updateSlides();
         }
 
         function toggleDrawer() { document.getElementById('drawer').classList.toggle('open'); }
@@ -168,8 +204,6 @@
                 document.getElementById('success-message').classList.add('active');
             }
         };
-
-        console.log("%c[FRiO SYSTEM INITIALIZED]", "color: #3b82f6; font-size: 20px; font-weight: bold;");
     </script>
 </body>
-    </html>
+</html>
