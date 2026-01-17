@@ -30,6 +30,7 @@
             position: absolute; inset: 0;
             background: rgba(0, 0, 0, 0.67);
             z-index: 1;
+            transition: background 0.5s ease;
         }
 
         .glass { backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -145,7 +146,7 @@
 
         const lightImages = [
             'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000',
-            'https://images.unsplash.com/photo-1517055727180-d1a6731f566d?q=80&w=2000',
+            'https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2000',
             'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000'
         ];
 
@@ -204,6 +205,8 @@
                 document.getElementById('success-message').classList.add('active');
             }
         };
+
+        console.log("%c[FRiO SYSTEM INITIALIZED]", "color: #3b82f6; font-size: 20px; font-weight: bold;");
     </script>
 </body>
 </html>
