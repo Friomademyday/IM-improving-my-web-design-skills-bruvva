@@ -3,104 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FRiO | Robotics & Engineering</title>
+    <title>FRiO | The Future of Engineering</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #e5e5e5; overflow-x: hidden; }
-        .mono { font-family: 'Space Mono', monospace; }
-        #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; opacity: 0.4; }
-        .glass-card { background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2px; transition: all 0.3s ease; }
-        .glass-card:hover { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
-        .scanline { width: 100%; height: 2px; background: rgba(59, 130, 246, 0.1); position: absolute; animation: scan 4s linear infinite; z-index: 50; pointer-events: none; }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-        .hero-text { font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; }
-        .border-glow { border-left: 4px solid #3b82f6; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #000; color: white; overflow-x: hidden; }
+        
+        #bg-slider {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            transition: background-image 1.5s ease-in-out;
+            background-size: cover; background-position: center;
+        }
+        #bg-slider::after {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%),
+                        linear-gradient(to bottom, rgba(0,0,0,0.4), #000);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+        }
+
+        .text-glow { text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float { animation: float 5s ease-in-out infinite; }
     </style>
 </head>
 <body>
-    <div class="scanline"></div>
-    <div id="particles-js"></div>
 
-    <header class="p-6 flex justify-between items-center max-w-7xl mx-auto relative z-10">
-        <div class="text-3xl font-black tracking-tighter">FRiO<span class="text-blue-600">_</span></div>
-        <div class="mono text-xs text-blue-500 hidden md:block uppercase tracking-widest">Status: Research & Development Phase</div>
-    </header>
+    <div id="bg-slider"></div>
 
-    <main class="relative z-10">
-        <section class="min-h-[80vh] flex flex-col justify-center px-6 max-w-7xl mx-auto">
-            <div class="max-w-4xl">
-                <p class="mono text-blue-500 mb-4 tracking-widest">// ELECTRICAL ENGINEERING & ROBOTICS</p>
-                <h1 class="text-6xl md:text-9xl hero-text mb-8 leading-[0.9]">
-                    Create the <span class="text-transparent" style="-webkit-text-stroke: 1px white;">Future.</span>
+    <nav class="fixed w-full z-50 p-8 flex justify-between items-center bg-gradient-to-bottom from-black/50 to-transparent">
+        <div class="text-2xl font-black tracking-tighter">FRiO<span class="text-blue-500">.</span></div>
+        <div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/70">
+            <a href="#" class="hover:text-white transition">Hardware</a>
+            <a href="#" class="hover:text-white transition">Systems</a>
+            <a href="#" class="bg-white text-black px-4 py-2 rounded-sm transition hover:bg-blue-500 hover:text-white">Join the Team</a>
+        </div>
+    </nav>
+
+    <main class="relative pt-32 px-6 lg:px-24">
+        
+        <section class="min-h-screen flex flex-col justify-center">
+            <div class="max-w-6xl">
+                <span class="text-blue-400 font-bold tracking-[0.4em] uppercase text-sm mb-4 block">Electrical Engineering • Robotics</span>
+                <h1 class="hero-title mb-8">
+                    WE BUILD <br>
+                    <span class="text-glow">THE FUTURE.</span>
                 </h1>
-                <blockquote class="border-glow pl-6 mb-12">
-                    <p class="text-xl md:text-2xl italic text-gray-400">"The only way to predict the future is to create it."</p>
-                </blockquote>
-                <div class="flex gap-4">
-                    <a href="#careers" class="bg-blue-600 hover:bg-blue-700 text-white mono text-sm px-8 py-4 transition-all uppercase font-bold">Join the Collective</a>
-                    <a href="#tech" class="border border-white/10 hover:bg-white/5 text-white mono text-sm px-8 py-4 transition-all uppercase">Our Stack</a>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mb-10 leading-relaxed">
+                    "The only way to predict the future is to create it." <br>
+                    <span class="text-sm font-light text-gray-500 italic">— The FRiO Motto</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pb-24">
+                <div class="glass p-8 rounded-3xl float">
+                    <h3 class="text-blue-400 font-bold mb-2 uppercase text-xs tracking-widest">Linux Systems</h3>
+                    <p class="text-lg font-medium">Seeking Kernel-level Wizards for OS architecture.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl float" style="animation-delay: 1s;">
+                    <h3 class="text-purple-400 font-bold mb-2 uppercase text-xs tracking-widest">Hardware</h3>
+                    <p class="text-lg font-medium">Precision Robotics & Microcontroller Programming.</p>
+                </div>
+                <div class="glass p-8 rounded-3xl float" style="animation-delay: 2s;">
+                    <h3 class="text-green-400 font-bold mb-2 uppercase text-xs tracking-widest">The Mission</h3>
+                    <p class="text-lg font-medium">Licensed or not, the engineering speaks for itself.</p>
                 </div>
             </div>
         </section>
 
-        <section id="careers" class="py-20 px-6 max-w-7xl mx-auto">
-            <div class="mb-12">
-                <h2 class="text-4xl font-black uppercase mb-2">Recruitment_Protocol</h2>
-                <p class="mono text-blue-500">Targeting high-skill operatives for the next generation of hardware.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-8">
-                    <div class="text-blue-500 mono mb-4">01. OS ARCHITECTS</div>
-                    <h3 class="text-xl font-bold mb-4">Linux Systems</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Optimization of kernel-level processes for real-time robotic response. If you live in the terminal, we want you.</p>
-                </div>
-
-                <div class="glass-card p-8 border-blue-500/50">
-                    <div class="text-blue-500 mono mb-4">02. SILICON WHISPERERS</div>
-                    <h3 class="text-xl font-bold mb-4">Microcontrollers</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Firmware development for ARM, ESP32, and custom PCB architectures. Low-latency is our religion.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-blue-500 mono mb-4">03. HARDWARE OPS</div>
-                    <h3 class="text-xl font-bold mb-4">Robotics Eng.</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed">Mechanical design meeting electrical precision. Building the physical shells for future intelligence.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 px-6 max-w-7xl mx-auto">
-            <div class="glass-card p-1 bg-gradient-to-r from-blue-900/20 to-transparent">
-                <div class="bg-[#050505] p-10">
-                    <h2 class="mono text-2xl mb-6 font-bold tracking-tighter">> FRiO_Venture_Manifesto:</h2>
-                    <p class="text-gray-400 max-w-3xl leading-relaxed">
-                        We don't build apps. We build machines. FRiO is a foundry for those who understand that the real frontier isn't digital—it's the intersection of code and physical reality. We are currently scouting for founders and engineers who aren't afraid of a soldering iron and a Linux bash prompt.
-                    </p>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <footer class="p-10 border-t border-white/5 text-center mono text-[10px] text-gray-600 uppercase tracking-[0.5em]">
-        &copy; 2026 FRiO Robotics // All Systems Operational
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script>
-        particlesJS('particles-js', {
-            "particles": {
-                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#3b82f6" },
-                "shape": { "type": "edge" },
-                "opacity": { "value": 0.3 },
-                "size": { "value": 2 },
-                "line_linked": { "enable": true, "distance": 150, "color": "#3b82f6", "opacity": 0.2, "width": 1 },
-                "move": { "enable": true, "speed": 1, "direction": "top", "random": true }
-            },
-            "retina_detect": true
-        });
+        const images = [
+            'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=2000',
+            'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2000',
+            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2000',
+            'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=2000'
+        ];
+
+        let index = 0;
+        const slider = document.getElementById('bg-slider');
+
+        function changeBg() {
+            slider.style.backgroundImage = `url('${images[index]}')`;
+            index = (index + 1) % images.length;
+        }
+
+        changeBg();
+        setInterval(changeBg, 5000);
     </script>
 </body>
 </html>
