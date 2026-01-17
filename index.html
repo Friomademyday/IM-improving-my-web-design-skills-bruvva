@@ -17,7 +17,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-bottom: 80px;
+            padding: 80px 0;
         }
 
         #bg-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000; overflow: hidden; }
@@ -47,18 +47,31 @@
         body.dark { background: #000; color: white; }
         body.light { background: #f4f4f4; color: #1a1a1a; }
 
-        /* Strict 3x3 Grid Layout */
+        /* STRICT 3X3 GRID FOR ALL DEVICES */
         .grid-3x3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 12px; /* Smaller gap for mobile fit */
         }
 
-        /* Mobile adjustments for readability */
-        @media (max-width: 1024px) {
-            .grid-3x3 {
-                grid-template-columns: repeat(1, 1fr);
-            }
+        @media (min-width: 768px) {
+            .grid-3x3 { gap: 24px; }
+        }
+
+        .grid-card {
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 180px;
+        }
+
+        /* Adjust text size for tight 3-column mobile view */
+        @media (max-width: 640px) {
+            .grid-card h3 { font-size: 8px; margin-bottom: 4px; }
+            .grid-card p { font-size: 9px; line-height: 1.2; }
+            .grid-card { padding: 10px; border-radius: 12px; min-height: 120px; }
         }
 
         #manifesto-section {
@@ -93,55 +106,55 @@
             <div id="slides-wrapper"></div>
         </div>
 
-        <div class="relative z-10 px-6 lg:px-24 pt-32">
-            <div class="max-w-6xl mb-12">
-                <h1 class="hero-title mb-8 uppercase text-white">WE BUILD <br><span class="text-glow">THE FUTURE.</span></h1>
-                <p class="text-lg md:text-3xl max-w-2xl mb-12 leading-tight font-light italic text-white/90">"The only way to predict the future is to create it."</p>
+        <div class="relative z-10 px-4 md:px-24">
+            <div class="max-w-6xl mb-10">
+                <h1 class="hero-title mb-6 uppercase text-white">WE BUILD <br><span class="text-glow">THE FUTURE.</span></h1>
+                <p class="text-sm md:text-3xl max-w-2xl mb-8 leading-tight font-light italic text-white/90">"The only way to predict the future is to create it."</p>
                 
-                <div class="flex flex-wrap gap-4">
-                    <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition">Join the Team</button>
-                    <a href="#manifesto-section" class="glass text-center text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition">Explore Specs</a>
+                <div class="flex gap-3">
+                    <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-6 md:px-10 py-3 md:py-4 rounded-full text-[10px] md:text-base font-bold uppercase tracking-widest transition">Join Team</button>
+                    <a href="#manifesto-section" class="glass text-center text-white px-6 md:px-10 py-3 md:py-4 rounded-full text-[10px] md:text-base font-bold uppercase tracking-widest transition">Specs</a>
                 </div>
             </div>
 
             <div class="grid-3x3">
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-500 font-bold mb-3 uppercase text-xs tracking-widest">Linux Systems</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Deep-level OS architecture focused on kernel optimization and low-latency communication. We build the digital nervous system that allows machines to respond in real-time.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-500 font-bold uppercase tracking-widest">Linux Systems</h3>
+                    <p class="opacity-80">Kernel optimization and low-latency digital nervous systems.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-500 font-bold mb-3 uppercase text-xs tracking-widest">Hardware</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Robotics and microcontroller precision. We design custom circuitries and mechanical structures that turn raw materials into high-functioning extensions of human intent.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-500 font-bold uppercase tracking-widest">Hardware</h3>
+                    <p class="opacity-80">Custom robotics circuitries and mechanical structures.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-500 font-bold mb-3 uppercase text-xs tracking-widest">The Mission</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Creating the physical tools for a limitless tomorrow. We don't build for a specific year; we build for the era where humans and machines explore the unreachable together.</p>
-                </div>
-
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-400 font-bold mb-3 uppercase text-xs tracking-widest">Kinematics</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Mastery of mechanics relating to motion. We study the complex physics of movement to ensure our humanoid avatars move with the fluid grace and balance of a living being.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-400 font-bold mb-3 uppercase text-xs tracking-widest">Electronics</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Advanced understanding of electrical components. From power distribution to signal integrity, we ensure every electron is harnessed to drive the future of robotics.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-400 font-bold mb-3 uppercase text-xs tracking-widest">Blueprints</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Precision technical drawing and architectural blueprints. We map out the impossible on paper before we breathe life into it with steel and silicon.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-500 font-bold uppercase tracking-widest">The Mission</h3>
+                    <p class="opacity-80">Tools for an era of limitless exploration.</p>
                 </div>
 
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-300 font-bold mb-3 uppercase text-xs tracking-widest">3D Modeling</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">High-fidelity 3D design. We create digital twins of our prototypes, refining every joint and casing in a virtual space before the first physical bolt is turned.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-400 font-bold uppercase tracking-widest">Kinematics</h3>
+                    <p class="opacity-80">Physics of fluid motion for humanoid avatars.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-300 font-bold mb-3 uppercase text-xs tracking-widest">Simulations</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Vast environment testing. We run millions of scenarios in physics-accurate simulations to prepare our avatars for the harshest, most unreachable places on Earth.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-400 font-bold uppercase tracking-widest">Electronics</h3>
+                    <p class="opacity-80">Advanced power distribution and signal integrity.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl text-white">
-                    <h3 class="text-blue-300 font-bold mb-3 uppercase text-xs tracking-widest">Renewable Power</h3>
-                    <p class="text-sm opacity-80 leading-relaxed">Self-sustaining energy research. We are developing the power systems of the future—limitless, clean, and capable of keeping our machines running indefinitely.</p>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-400 font-bold uppercase tracking-widest">Blueprints</h3>
+                    <p class="opacity-80">Precision mapping of impossible architectures.</p>
+                </div>
+
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-300 font-bold uppercase tracking-widest">3D Modeling</h3>
+                    <p class="opacity-80">Virtual twin refinement of every casing.</p>
+                </div>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-300 font-bold uppercase tracking-widest">Simulations</h3>
+                    <p class="opacity-80">Physics-accurate testing for harsh environments.</p>
+                </div>
+                <div class="glass grid-card text-white">
+                    <h3 class="text-blue-300 font-bold uppercase tracking-widest">Renewable Power</h3>
+                    <p class="opacity-80">Self-sustaining systems for infinite runtime.</p>
                 </div>
             </div>
         </div>
@@ -154,54 +167,21 @@
             <div class="grid grid-cols-1 gap-8">
                 <div class="p-10 glass rounded-3xl border-l-4 border-blue-500">
                     <h4 class="text-3xl font-black uppercase mb-4 tracking-tight">The Robotic Avatar</h4>
-                    <p class="opacity-70 text-lg leading-relaxed mb-6">
-                        Currently in development. A humanoid system designed to bridge the gap between human intent and mechanical execution, controlled via intuitive gamepad interface. Built from the ground up to reach places traditional exploration cannot.
-                    </p>
+                    <p class="opacity-70 text-lg leading-relaxed mb-6">Currently in development. A humanoid system bridging human intent and mechanical execution.</p>
                 </div>
 
                 <div class="p-10 glass rounded-3xl border-l-4 border-blue-500">
                     <h4 class="text-3xl font-black uppercase mb-4 tracking-tight text-blue-400">Pidilang</h4>
-                    <p class="opacity-70 text-lg leading-relaxed mb-6">
-                        A programming language based on Pidgin currently in development to bridge the gap between the use of English and local languages. By localizing syntax, we expand the reach of technology to every mind.
-                    </p>
-                    <a href="https://friomademyday.github.io/Pidilang/" target="_blank" class="inline-block bg-white/10 hover:bg-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition">View Documentation</a>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="p-10 glass rounded-3xl border-t border-blue-500/30">
-                        <h4 class="text-2xl font-black uppercase mb-4 tracking-tight">Renewable Energy</h4>
-                        <p class="opacity-70">
-                            Harnessing the potential of electricity in ways that matter. We focus on self-sustaining power to ensure the future we build is as immune to failure as possible.
-                        </p>
-                    </div>
-                    <div class="p-10 glass rounded-3xl border-t border-blue-500/30">
-                        <h4 class="text-2xl font-black uppercase mb-4 tracking-tight">Mind Over Qualification</h4>
-                        <p class="opacity-70">
-                            We believe in the gift of the mind. Schools don't define capability; creation does. FRiO is a home for those who build because they must.
-                        </p>
-                    </div>
+                    <p class="opacity-70 text-lg leading-relaxed mb-6">A programming language based on Pidgin to bridge the gap between English and local languages.</p>
+                    <a href="https://friomademyday.github.io/Pidilang/" target="_blank" class="inline-block bg-white/10 hover:bg-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition">View Docs</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="drawer" class="fixed top-0 right-0 h-full w-full md:w-[500px] glass bg-black/95 p-8 md:p-12 flex flex-col overflow-y-auto">
-        <button onclick="toggleDrawer()" class="self-end text-2xl mb-4 text-white">✕</button>
-        <div class="text-white">
-            <h2 class="text-3xl font-black mb-8 uppercase tracking-tighter">Contact FR<span class="text-blue-500">i</span>O</h2>
-            <form id="frio-form" action="https://formspree.io/f/mkooopwj" method="POST" class="flex flex-col gap-5">
-                <input type="text" name="name" placeholder="Full Name" required class="bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
-                <input type="email" name="email" placeholder="Email" required class="bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition">
-                <textarea name="vision" placeholder="Your Vision" rows="4" required class="bg-white/5 border-b border-white/20 p-3 outline-none focus:border-blue-500 transition resize-none"></textarea>
-                <button type="submit" class="bg-blue-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-blue-500 transition">Transmit Data</button>
-            </form>
-        </div>
-    </div>
-
     <script>
         const darkImages = ['https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2000','https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000','https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000'];
         const lightImages = ['https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000','https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2000','https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2000'];
-
         let currentIdx = 0;
         const wrapper = document.getElementById('slides-wrapper');
         
@@ -227,15 +207,13 @@
         }, 8000);
 
         function toggleTheme() {
-            document.body.classList.toggle('dark');
-            document.body.classList.toggle('light');
+            document.body.classList.toggle('dark'); document.body.classList.toggle('light');
             const dot = document.getElementById('theme-dot');
             dot.style.transform = document.body.classList.contains('light') ? 'translateX(20px)' : 'translateX(0)';
             updateSlides();
         }
-
         function toggleDrawer() { document.getElementById('drawer').classList.toggle('open'); }
         updateSlides();
     </script>
 </body>
-                                                                                                                               </html>
+    </html>
