@@ -36,7 +36,8 @@
         .glass { backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .hero-title { font-size: clamp(2.5rem, 8vw, 7rem); line-height: 0.9; font-weight: 800; letter-spacing: -0.04em; }
         .text-glow { text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
-        .logo-header { letter-spacing: 0.4em; }
+        .logo-header { letter-spacing: 0.2em; }
+        @media (min-width: 768px) { .logo-header { letter-spacing: 0.4em; } }
 
         body.dark { background: #000; color: white; }
         body.light { background: #f4f4f4; color: #1a1a1a; }
@@ -56,18 +57,17 @@
         <div id="slides-wrapper"></div>
     </div>
 
-    <nav class="fixed w-full z-[60] p-6 md:p-10 flex justify-between items-center">
-        <div class="text-2xl font-black logo-header uppercase">F R <span class="text-blue-500">i</span> O</div>
-        <div class="flex gap-6 items-center">
-            <button onclick="toggleTheme()" class="p-2 glass rounded-full w-12 h-6 flex items-center px-1">
-                <div id="theme-dot" class="bg-blue-500 w-4 h-4 rounded-full transition-transform"></div>
+    <nav class="fixed w-full z-[60] p-4 md:p-10 flex justify-between items-center bg-black/20 md:bg-transparent backdrop-blur-md md:backdrop-blur-none">
+        <div class="text-xl md:text-2xl font-black logo-header uppercase">F R <span class="text-blue-500">i</span> O</div>
+        <div class="flex gap-3 md:gap-6 items-center">
+            <button onclick="toggleTheme()" class="p-1 glass rounded-full w-10 h-5 flex items-center px-1">
+                <div id="theme-dot" class="bg-blue-500 w-3 h-3 md:w-4 md:h-4 rounded-full transition-transform"></div>
             </button>
-            <a href="#details" class="hidden md:block text-xs font-bold uppercase tracking-widest opacity-70 hover:opacity-100">Learn More</a>
-            <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Contact Us</button>
+            <button onclick="toggleDrawer()" class="bg-blue-600 text-white px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest whitespace-nowrap">Contact Us</button>
         </div>
     </nav>
 
-    <main class="relative pt-20 md:pt-48 px-6 lg:px-24">
+    <main class="relative pt-32 md:pt-48 px-6 lg:px-24">
         <section class="min-h-screen flex flex-col justify-center">
             <div class="max-w-6xl">
                 <h1 class="hero-title mb-8">WE BUILD <br><span class="text-glow uppercase">THE FUTURE.</span></h1>
@@ -182,7 +182,7 @@
             const dot = document.getElementById('theme-dot');
             if(body.classList.contains('dark')) {
                 body.classList.replace('dark', 'light');
-                dot.style.transform = 'translateX(24px)';
+                dot.style.transform = 'translateX(20px)';
             } else {
                 body.classList.replace('light', 'dark');
                 dot.style.transform = 'translateX(0)';
