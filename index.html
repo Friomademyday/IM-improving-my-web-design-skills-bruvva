@@ -80,9 +80,10 @@
         #drawer { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); z-index: 100; }
         #drawer.open { transform: translateX(0); }
 
-        /* Progress Bar Styles */
         .progress-container { background: rgba(255,255,255,0.05); border-radius: 99px; height: 8px; width: 100%; overflow: hidden; }
-        .progress-fill { background: #3b82f6; height: 100%; transition: width 1s ease-in-out; }
+        .progress-fill { background: #3b82f6; height: 100%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .status-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 800; border: 1px solid currentColor; }
     </style>
 </head>
 <body class="dark">
@@ -194,42 +195,43 @@
                 <div class="p-8 glass rounded-3xl">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-xl font-bold uppercase tracking-widest">Project: Robotic Avatar</h4>
-                        <span class="text-blue-500 font-mono">65% ACTIVE</span>
+                        <span class="status-tag text-blue-500">40% CAPACITY</span>
                     </div>
                     <div class="progress-container mb-6">
-                        <div class="progress-fill" style="width: 65%"></div>
+                        <div class="progress-fill" style="width: 40%"></div>
                     </div>
                     <ul class="text-sm opacity-60 flex flex-col gap-2 font-mono">
-                        <li>> [SUCCESS] Limb articulation kinematics locked.</li>
-                        <li>> [PENDING] Haptic feedback bridge optimization.</li>
+                        <li>> [LOG] Skeleton frame assembly complete.</li>
+                        <li>> [LOG] Basic actuator testing initiated.</li>
+                        <li>> [LOG] Manual control bridge in testing phase.</li>
                     </ul>
                 </div>
 
                 <div class="p-8 glass rounded-3xl">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-xl font-bold uppercase tracking-widest">Project: Pidilang</h4>
-                        <span class="text-blue-400 font-mono">40% DEPLOYED</span>
+                        <span class="status-tag text-blue-400">10% CAPACITY</span>
                     </div>
                     <div class="progress-container mb-6">
-                        <div class="progress-fill" style="width: 40%"></div>
+                        <div class="progress-fill" style="width: 10%"></div>
                     </div>
                     <ul class="text-sm opacity-60 flex flex-col gap-2 font-mono">
-                        <li>> [SUCCESS] Core syntax interpreter finished.</li>
-                        <li>> [ACTIVE] Local language mapping (Phase 2).</li>
+                        <li>> [LOG] Lexer logic mapping started.</li>
+                        <li>> [LOG] Keyword reservation for local syntax in progress.</li>
                     </ul>
                 </div>
 
                 <div class="p-8 glass rounded-3xl">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-xl font-bold uppercase tracking-widest">Project: Energy Labs</h4>
-                        <span class="text-blue-300 font-mono">25% INITIALIZED</span>
+                        <span class="status-tag text-blue-300">5% CAPACITY</span>
                     </div>
                     <div class="progress-container mb-6">
-                        <div class="progress-fill" style="width: 25%"></div>
+                        <div class="progress-fill" style="width: 5%"></div>
                     </div>
                     <ul class="text-sm opacity-60 flex flex-col gap-2 font-mono">
-                        <li>> [SUCCESS] Prototype solar-thermal collector tested.</li>
-                        <li>> [PENDING] High-density solid state storage blueprints.</li>
+                        <li>> [LOG] Theoretical research for clean storage models.</li>
+                        <li>> [LOG] Initial drafting of low-loss transmission systems.</li>
                     </ul>
                 </div>
             </div>
